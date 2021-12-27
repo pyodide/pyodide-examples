@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script src="https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js"></script>
+  </head>
+  <body>
+    Pyodide test page <br>
+    Open your browser console to see Pyodide output
+    <script type="text/javascript">
+      async function main(){
+        const pkgResponse = fetch("hello_world.zip").then(x => x.arrayBuffer());
+        window.pyodide = await loadPyodide({
+          indexURL : "https://cdn.jsdelivr.net/pyodide/dev/full/"
+        });
+        const pkgdata = await pkgResponse;
+        pyodide.unpackArchive(pkgdata, "zip");
+        window.pkg = pyodide.pyimport("hello_world");
+      }
+      main();
+    </script>
+  </body>
+</html>
