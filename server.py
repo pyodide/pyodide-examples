@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import argparse
 from contextlib import contextmanager
 import http.server
@@ -41,10 +43,9 @@ def server(port):
 
 
 def main(args):
-    build_dir = args.build_dir
     port = args.port
     with server(port) as httpd:
-        print(f"serving from {build_dir} at http://localhost:{port}")
+        print(f"serving from {Path(__file__).resolve().parent} at http://localhost:{port}")
         httpd.serve_forever()
 
 

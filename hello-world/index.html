@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <script src="https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js"></script>
   </head>
   <body>
-    Pyodide test page <br>
+    Pyodide test page <br />
     Open your browser console to see Pyodide output
     <script type="text/javascript">
-      async function main(){
-        const pkgResponse = fetch("hello_world.zip").then(x => x.arrayBuffer());
+      async function main() {
+        const pkgResponse = fetch("hello_world.zip").then((x) =>
+          x.arrayBuffer()
+        );
         window.pyodide = await loadPyodide({
-          indexURL : "https://cdn.jsdelivr.net/pyodide/dev/full/"
+          indexURL: "https://cdn.jsdelivr.net/pyodide/dev/full/",
         });
         const pkgdata = await pkgResponse;
+        console.log("Unpacking package");
         pyodide.unpackArchive(pkgdata, "zip");
+        console.log("Importing hello world");
         window.pkg = pyodide.pyimport("hello_world");
+        console.log(`pkg.say_hello("John!"):`);
+        pkg.say_hello("John!");
+        console.log(
+          `pkg.repeat_string("John!", 4):`,
+          pkg.repeat_string("John!", 4)
+        );
       }
       main();
     </script>
